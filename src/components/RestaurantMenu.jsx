@@ -2,15 +2,23 @@ import { useState, useEffect } from "react";
 import { CDN_URL } from "../utils/constants";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 const RestaurantMenu = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [restaurant, setRestaurant] = useState({});
   const {resId} = useParams();
- 
+  const dispatch = useDispatch();
   
   useEffect(() => {
     fetchMenu();
   }, []);
+
+  const handleAddItem = (name) => {
+    //dispatch an action 
+    dispatch(addItem(name)) //this will go to reducer function action and pizza is a payload for the addItem
+
+  }
 
   const fetchMenu = async () => {
     // const response = await fetch(
@@ -63,6 +71,7 @@ const RestaurantMenu = () => {
            
             <div key={menuItem.card.info.id}>
               <h3>{menuItem.card.info.name}</h3>
+              <button onClick = {()=>handleAddItem(menuItem.card.info.name)}>Add</button>
               <p>{menuItem.card.info.category}</p>
               <p>{menuItem.card.info.price / 100}</p>
               <p>{menuItem.card.info.description}</p>

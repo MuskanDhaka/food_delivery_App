@@ -1,18 +1,22 @@
 import "./App.css";
-import About from "./components/About";
-import { Header } from "./components/Header";
 import Body from "./components/Body";
-import Contact from "./components/Contact";
 import Error from "./components/Error";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { Provider } from "react-redux";
+import About from "./components/About";
+import appStore from "./utils/appStore";
+import Contact from "./components/Contact";
+import { Header } from "./components/Header";
 import RestaurantMenu from "./components/RestaurantMenu";
-
+import Cart from "./components/Cart";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 function AppLayout() {
   return (
+    <Provider store={appStore}>
     <div className="app">
       <Header />
       <Outlet />
     </div>
+    </Provider>
   );
 }
 
@@ -37,6 +41,10 @@ const appRouter = createBrowserRouter([
       {
         path : "/restaurant/:resId",
         element : <RestaurantMenu/>
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       }
     ],
   },
